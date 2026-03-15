@@ -4,4 +4,15 @@
   <router-view></router-view>
 </template>
 
-<style scoped></style>
+<style>
+/* 全局样式 */
+
+body {
+  height: 100vh;
+}
+
+#app {
+  height: 100%;
+  background-color: #f0f8ff; /* 浅蓝白色 */
+}
+</style>

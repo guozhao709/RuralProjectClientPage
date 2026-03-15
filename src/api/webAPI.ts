@@ -5,4 +5,9 @@ export const login = (data: { phone: string, password: string }) : any => {
   return request.post("/user/auth/login", data);
 }
 
+// 注册接口
+export const register = (data: { phone: string, password: string, name: string, gender: number, birthday: string, address: string }) : any => {
+  return request.post("/user/auth/register", data);
+}
+
 

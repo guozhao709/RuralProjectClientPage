@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import { Notify } from 'vant';
 import 'vant/es/notify/style'; 
+import './styles/reset.css'
 
 import router from './router/index.js'
 
