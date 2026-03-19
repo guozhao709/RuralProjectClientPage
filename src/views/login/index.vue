@@ -119,6 +119,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
 import { login, register } from "@/api/webAPI";
 import { showNotify } from "vant";
 
@@ -137,6 +138,8 @@ interface UserRegisterInfo {
   birthday: string; // 日期字符串（YYYY-MM-DD），匹配数据库 DATE
   address: string;
 }
+
+const router = useRouter();
 
 const userLoginInfo = reactive<UserLoginInfo>({
   phone: "",
@@ -162,6 +165,9 @@ const onSubmitLogin = async () => {
   if (res.success) {
     localStorage.setItem("token", res.token);
     localStorage.setItem("userInfo", JSON.stringify(res.userInfo));
+    showNotify({ message: "登录成功", position: "top" });
+    // 登录成功后跳转到主页面
+    router.push("/main/home");
   } else {
     showNotify({ message: "用户名或密码错误", position: "top" });
   }

@@ -38,7 +38,9 @@
         placeholder="有什么想问的?"
       >
         <template #button>
-          <van-button size="small" type="primary">发送</van-button>
+          <van-button size="small" type="primary" @click="handleAIchat"
+            >发送</van-button
+          >
         </template>
       </van-field>
     </van-cell-group>
@@ -46,75 +48,58 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
+import { requestAIchatStream } from "@/api/aiWebAPI";
 
-// onMounted(() => {
-//   const bottomAnchor = ref<HTMLDivElement | null>(null);
-//   if (bottomAnchor.value) {
-//     bottomAnchor.value.scrollIntoView({ behavior: "smooth" });
-//   }
-// });
+const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+const userId = Number(userInfo.id);
+
+console.log("在ai聊天界面的userId:", userId);
+
+interface MessageRole {
+  id: number;
+  role: string;
+  content: string;
+}
 
 const userPrompt = ref<string>("");
 
-const messages = [
-  {
-    id: 1,
+const handleAIchat = () => {
+  const length = messages.value.length;
+  messages.value.push({
+    id: length + 1,
     role: "user",
-    content: "你好, 我是guozhao, 能告诉我你的名字吗",
-  },
-  {
-    id: 2,
+    content: userPrompt.value,
+  });
+
+  messages.value.push({
+    id: length + 2,
     role: "assistant",
-    content: "你好，我是智能助手",
-  },
-  {
-    id: 3,
-    role: "user",
-    content: "你好, 我是guozhao",
-  },
-  {
-    id: 4,
-    role: "assistant",
-    content: "你好，我是kimi",
-  },
-  {
-    id: 5,
-    role: "user",
-    content: "你好, 我是guozhao, 能告诉我你的手机号吗",
-  },
-  {
-    id: 6,
-    role: "assistant",
-    content: "你好，我是guozhao，我的手机号是12888888888",
-  },
-  {
-    id: 7,
-    role: "user",
-    content: "你好, 我是guozhao, 能告诉我你的邮箱吗",
-  },
-  {
-    id: 8,
-    role: "assistant",
-    content: "你好，我是guozhao，我的邮箱是12888888888@qq.com",
-  },
-  {
-    id: 9,
-    role: "user",
-    content: "你好, 我是guozhao, 能告诉我你的地址吗",
-  },
-  {
-    id: 10,
-    role: "assistant",
-    content: "你好，我是guozhao，我的地址是北京市海淀区",
-  },
-];
+    content: "",
+  });
+
+  requestAIchatStream(userId, userPrompt.value, (str) => {
+    if (messages.value[length + 1]) {
+      messages.value[length + 1]!.content = str;
+    }
+  });
+
+  userPrompt.value = "";
+
+  // 滚动到最底部
+  const bottomAnchor = ref<HTMLDivElement | null>(null);
+  if (bottomAnchor.value) {
+    bottomAnchor.value.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
+const messages = ref<MessageRole[]>([]);
 </script>
 
 <style scoped lang="scss">
 .chat-container {
   margin: 10px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px;
   border: 2px solid #fff;
   border-radius: 10px;
   background-color: #cfd8f3;
@@ -125,32 +110,40 @@ const messages = [
     margin: 10px 0 0 0;
     font-size: 20px;
 
-    .user-message {
+    // 消息容器的公共 flex 样式
+    .user-message,
+    .assistant-message {
       display: flex;
-      justify-content: flex-end;
       align-items: flex-start;
+    }
+
+    // 用户消息：右对齐 + 左侧 margin
+    .user-message {
+      justify-content: flex-end;
       margin-left: 10%;
 
       .message-pop {
         margin-right: 10px;
-        padding: 10px;
-        border-radius: 10px;
         background-color: #35ec08;
       }
     }
 
+    // 助手消息：左对齐 + 右侧 margin
     .assistant-message {
-      display: flex;
       justify-content: flex-start;
-      align-items: flex-start;
       margin-right: 10%;
 
       .message-pop {
         margin-left: 10px;
-        padding: 10px;
-        border-radius: 10px;
         background-color: #fff;
       }
+    }
+    // 气泡的公共样式
+    .message-pop {
+      padding: 10px;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
   }
 }

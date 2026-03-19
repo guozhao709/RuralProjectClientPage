@@ -13,6 +13,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    VanAvatar: typeof import('vant/es')['Avatar']
+    VanBar: typeof import('vant/es')['Bar']
     VanButton: typeof import('vant/es')['Button']
     VanCard: typeof import('vant/es')['Card']
     VanCellGroup: typeof import('vant/es')['CellGroup']
@@ -21,6 +23,7 @@ declare module 'vue' {
     VanField: typeof import('vant/es')['Field']
     VanForm: typeof import('vant/es')['Form']
     VanImage: typeof import('vant/es')['Image']
+    VanIng: typeof import('vant/es')['Ing']
     VannavBar: typeof import('vant/es')['navBar']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanPopup: typeof import('vant/es')['Popup']
