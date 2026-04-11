@@ -3,7 +3,7 @@
     <h1>点击卡片使用其功能</h1>
   </header>
   <div class="cards">
-    <div v-for="item in cards" :key="item.id" class="card">
+    <div v-for="item in cards" :key="item.id" class="card" @click="handleCardClick(item.id)">
       <div class="word">
         <div class="card-header">
           <h2>{{ item.name }}</h2>
@@ -18,6 +18,30 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+// 添加跳转路由功能
+const handleCardClick = (id: number) => {
+  switch (id) {
+    case 1:
+      router.push("/function/healthy");
+      break;
+    case 2:
+      router.push("/function/safety");
+      break;
+    case 3:
+      router.push("/function/agriculture");
+      break;
+    case 4:
+      router.push("/function/hospital");
+      break;
+    case 5:
+      router.push("/function/villageCommittee");
+      break;
+    default:
+      break;
+  }
+};
 
 const cards = ref([
   {
