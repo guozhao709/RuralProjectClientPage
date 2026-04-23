@@ -48,10 +48,6 @@ const router = createRouter({
       component: () => import("@/views/functionPages/agriculture.vue"),
     },
     {
-      path: "/function/safety",
-      component: () => import("@/views/functionPages/safety.vue"),
-    },
-    {
       path: "/function/villageCommittee",
       component: () => import("@/views/functionPages/villageCommittee.vue"),
     },

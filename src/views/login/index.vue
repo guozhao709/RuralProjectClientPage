@@ -167,7 +167,7 @@ const onSubmitLogin = async () => {
     localStorage.setItem("userInfo", JSON.stringify(res.userInfo));
     showNotify({ message: "登录成功", position: "top" });
     // 登录成功后跳转到主页面
-    router.push("/main/home");
+    router.push("/home");
   } else {
     showNotify({ message: "用户名或密码错误", position: "top" });
   }

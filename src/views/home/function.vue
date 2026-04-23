@@ -26,9 +26,6 @@ const handleCardClick = (id: number) => {
     case 1:
       router.push("/function/healthy");
       break;
-    case 2:
-      router.push("/function/safety");
-      break;
     case 3:
       router.push("/function/agriculture");
       break;
@@ -49,11 +46,7 @@ const cards = ref([
     name: "健康助手",
     meta: "根据您的情况，为您提供专业的健康建议。",
   },
-  {
-    id: 2,
-    name: "安全助手",
-    meta: "有什么安全问题, 都可以问。",
-  },
+
   {
     id: 3,
     name: "农业助手",
@@ -73,8 +66,7 @@ const cards = ref([
 </script>
 
 <style scoped lang="scss">
-
-.header{
+.header {
   margin: 5px 10px 0 10px;
   font-size: 30px;
   font-weight: bold;
@@ -101,9 +93,11 @@ const cards = ref([
 
     .word {
       width: 70%;
+
       .card-header {
         font-size: 30px;
       }
+
       .card-meta {
         font-size: 20px;
       }

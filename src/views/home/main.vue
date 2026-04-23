@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <van-nav-bar :title="navBarTitle[active as keyof typeof navBarTitle]" left-arrow @click-left="onClickLeft" />
+    <FunctionHeader :title="navBarTitle[active as keyof typeof navBarTitle]" />
     <article>
       <router-view></router-view>
     </article>
@@ -16,21 +16,11 @@
 </template>
 
 <script setup lang="ts">
-
 import { computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import FunctionHeader from '@/components/FunctionHeader.vue';
 
-const router = useRouter();
 const route = useRoute();
-
-// 左上角点击返回上一级路由
-const onClickLeft = () => {
-  if (window.history.length > 1) {
-    router.back();
-    return;
-  }
-  router.push('/home');
-};
 
 const navBarTitle = {
   home: '首页',
