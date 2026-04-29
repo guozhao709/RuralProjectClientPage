@@ -1,4 +1,6 @@
 import axios from "axios";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 import router from "@/router/index";
 
 const http = axios.create({
@@ -9,14 +11,13 @@ const http = axios.create({
 // 请求拦截器
 http.interceptors.request.use(
   (config) => {
+    NProgress.start();
+
     const token = localStorage.getItem("token");
-
     const whiteList = ["/user/auth/login", "/user/auth/register"];
-
     if (config.url && !whiteList.includes(config.url) && token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => {
@@ -27,10 +28,12 @@ http.interceptors.request.use(
 // 响应拦截器
 http.interceptors.response.use(
   (response) => {
+    NProgress.done();
     return response.data;
   },
 
   (error) => {
+    NProgress.done();
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
       localStorage.removeItem("userInfo");

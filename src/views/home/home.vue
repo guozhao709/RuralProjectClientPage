@@ -1,10 +1,5 @@
 <template>
-  <van-swipe
-    class="my-swipe"
-    :autoplay="8000"
-    height="200"
-    indicator-color="white"
-  >
+  <van-swipe class="my-swipe" :autoplay="8000" height="200" indicator-color="white">
     <van-swipe-item v-for="value in notices" :key="value.id">
       <div class="notice-item">
         <h2 class="notice-type">{{ value.title }}</h2>
@@ -29,6 +24,20 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { checkToken } from '@/api/webAPI';
+
+const router = useRouter();
+
+
+onMounted(async () => {
+  const res = await checkToken();
+  if (!res.success) {
+    router.push("/login");
+  }
+})
+
 const notices = [
   {
     id: 1,
@@ -129,9 +138,11 @@ const servers = [
 
 .notice-item {
   padding: 30px 10px 0 10px;
+
   .notice-content {
     font-size: 30px;
   }
+
   .notice-time {
     text-align: right;
   }
@@ -146,16 +157,19 @@ const servers = [
   margin-top: 10px;
   border-radius: 15px;
   overflow-y: auto;
+
   .notice-card {
     width: 45%;
     height: 120px;
     margin: 0 0 15px 0;
     border-radius: 15px;
     background-color: #fff;
+
     .notice-type {
       font-size: 20px;
       text-align: center;
     }
+
     .notice-content {
       padding: 10px 10px 10px 10px;
       font-size: 20px;
@@ -172,6 +186,7 @@ const servers = [
   justify-content: space-around;
   padding: 0 10px 0 10px;
   margin-top: 10px;
+
   li {
     width: 45%;
     height: 80px;
@@ -181,7 +196,8 @@ const servers = [
     text-align: center;
     font-size: 20px;
     background-color: #f02828af;
-    p{
+
+    p {
       font-size: 30px;
     }
   }

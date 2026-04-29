@@ -10,4 +10,8 @@ export const register = (data: { phone: string, password: string, name: string, 
   return request.post("/user/auth/register", data);
 }
 
+// 判断token是否过期
+export const checkToken = () : Promise<{success: boolean, message: string}> => {
+  return request.get("/user/auth/checkToken");
+}
 
